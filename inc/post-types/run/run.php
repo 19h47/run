@@ -286,11 +286,6 @@ class Run {
 		
 			case 'run':
 			
-				/**
-				 * Because this action is run in several places, checking for the array key
-				 * keeps WordPress from editing data that wasn't in the form, i.e. if you had
-				 * this post meta on your "Quick Edit" but didn't have it on the "Edit Post" screen.
-				 */
 				$custom_fields = array( 'run_duration', 'run_steps' );
 				
 				foreach( $custom_fields as $field ) {
