@@ -1,4 +1,24 @@
-<?php 
+<?php
+/**
+ * Stepper functions and defintions
+ * ​
+A8Z8qm=,
+ * @see https://developer.wordpress.org/themes/basics/theme-functions/
+ *
+ * @package WordPress
+ * @subpackage stepper
+ * @since 1.0.0
+ *
+ * Functions'prefix is stepper_
+ */
+
+
+/**
+ * Includes necessary files
+ */
+include get_template_directory() . '/inc/_includes.php';
+
+
 /**
  * class Theme
  */
@@ -31,7 +51,8 @@ class Theme {
         
         $this->theme_name = $theme_name;
         $this->theme_version = $theme_version;
- 
+        
+        $this->setup();
         $this->load_dependencies();
     }
 
@@ -168,6 +189,20 @@ class Theme {
 
 
     /**
+     * List webfonts used by the theme.
+     * 
+     * @return array
+     * @access public
+     */
+    public function webfonts() {
+        
+        return array(
+            'work-sans' => 'https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900',
+        );
+    }
+
+
+    /**
      * Enqueue scripts
      *
      * @access public
@@ -200,18 +235,6 @@ class Theme {
     }
     
 
-    /**
-     * List webfonts used by the theme.
-     * 
-     * @return array
-     * @access public
-     */
-    public function webfonts() {
-        
-        return array(
-        	'work-sans' => 'https://fonts.googleapis.com/css?family=Work+Sans:100,200,300,400,500,600,700,800,900',
-        );
-    }
     /**
      * Handles JavaScript detection.
      * Adds a `js` class to the root `<html>` element when JavaScript is detected.

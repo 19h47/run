@@ -49,8 +49,7 @@ class Custom_Post_Types {
      * @access      public
      */
 	public function include_custom_post_types() {
-        include __DIR__ . '/run.php';
-		// include __DIR__ . '/work.php';
+        include __DIR__ . '/run/run.php';
 	}
 	
 
@@ -61,6 +60,5 @@ class Custom_Post_Types {
      */
     public function instanciate_custom_post_types() {
         new Run( $this->theme_name, $this->theme_version );
-        // new Event( $this->theme_name, $this->theme_version );      
     }
 }

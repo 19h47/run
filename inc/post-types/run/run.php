@@ -33,44 +33,31 @@ class Run {
 		$this->theme_name = $theme_name;
         $this->theme_version = $theme_version;
         
-        $this->register_run_post_type();
-        add_action( 'init', array( &$this, 'register_post_type' ) );
-        
-        if ( is_admin() ) {
-			add_action( 'load-post.php', array( &$this, 'init_metabox' ) );
-			add_action( 'load-post-new.php', array( &$this, 'init_metabox' ) );
-		}
+        $this->register_post_type();
+        add_action( 'init', array( $this, 'register_post_type' ) );
 
-		add_filter( 'manage_run_posts_columns', array( &$this, 'add_run_columns' ) );
-		add_action( 'manage_run_posts_custom_column' , array( &$this, 'run_custom_columns' ), 10, 2 );
+        include __DIR__ . '/meta-box.php';
 
-		add_filter( 'manage_edit-run_sortable_columns', array( &$this, 'sortable_run_column' ) );
-		add_action( 'pre_get_posts', array( &$this, 'steps_orderby' ) ); 
+        new Meta_Box( $this->theme_name );
 
-		add_action( 'quick_edit_custom_box',  array( &$this, 'add_quick_edit' ), 10, 2 );
-		add_action( 'admin_print_scripts-edit.php', array( &$this, 'enqueue_script_quick_edit' ) );
-		add_action( 'save_post', array( &$this, 'save_quick_edit' ), 10, 2 );
-		add_action( 'wp_ajax_manage_wp_posts_using_bulk_quick_save_bulk_edit', array( &$this, 'manage_quick_edit' ) );
-        
+		add_filter( 'manage_run_posts_columns', array( $this, 'add_run_columns' ) );
+		add_action( 'manage_run_posts_custom_column' , array( $this, 'run_custom_columns' ), 10, 2 );
+
+		add_filter( 'manage_edit-run_sortable_columns', array( $this, 'sortable_run_column' ) );
+		add_action( 'pre_get_posts', array( $this, 'steps_orderby' ) ); 
+
+		add_action( 'quick_edit_custom_box',  array( $this, 'add_quick_edit' ), 10, 2 );
+		add_action( 'admin_print_scripts-edit.php', array( $this, 'enqueue_script_quick_edit' ) );
+		add_action( 'save_post', array( $this, 'save_quick_edit' ), 10, 2 );
+		add_action( 'wp_ajax_manage_wp_posts_using_bulk_quick_save_bulk_edit', array( $this, 'manage_quick_edit' ) );
+     
 	}
 
-
-	/**
-	 * init metabox description
-	 * 
-	 * @see https://generatewp.com/snippet/90jakpm/
-	 */
-	public function init_metabox() {
-
-		add_action( 'add_meta_boxes', array( &$this, 'add_metabox' ) );
-		add_action( 'save_post', array( &$this, 'save_metabox' ), 10, 2 );
-
-	}
 	
 	/**
 	 * Register Custom Post Type
 	 */
-	public function register_run_post_type() {
+	public function register_post_type() {
 		$labels = array(
 			'name'                  => __( 'Runs', $this->theme_name ),
 			'singular_name'         => __( 'Run', $this->theme_name ),
@@ -129,107 +116,6 @@ class Run {
 		);
 
 		register_post_type( 'run', $args );
-	}
-
-
-	/**
-	 * Add the meta box container
-	 *
-	 * $id, $title, $callback, $page, $context, $priority, $callback_args
-	 * @see  https://developer.wordpress.org/reference/functions/add_meta_box/
-	 */
-	public function add_metabox() {
-		add_meta_box(
-			'run_information', 
-			__( 'Information', $this->theme_name ), 
-			array( &$this, 'render_metabox' ),
-			'run', 
-			'side', 
-			'default'
-		);
-	}
-
-
-	/**
-	 * Render metabox description
-	 * 
-	 * @param $post 
-	 */
-	public function render_metabox( $post ) {
-
-		// Add nonce for security and authentication.
-		wp_nonce_field( 'run_nonce_action', 'run_nonce' );
-
-		// Retrieve an existing value from the database.
-		$run_duration = get_post_meta( $post->ID, 'run_duration', true );
-		$run_steps = get_post_meta( $post->ID, 'run_steps', true );
-
-		// Set default values.
-		if( empty( $run_duration ) ) $run_duration = '';
-		if( empty( $run_steps ) ) $run_steps = '';
-
-		// Form fields.
-		echo '<table class="form-table">';
-
-		echo '<tr>';
-		echo '<th><label for="run_duration" class="run_duration_label">';
-		echo __( 'Duration', $this->theme_name );
-		echo '</label></th>';
-		echo '<td>';
-		echo '<input type="time" id="run_duration" name="run_duration" class="run_duration_field" placeholder="' . esc_attr__( '', $this->theme_name ) . '" value="' . esc_attr__( $run_duration ) . '">';
-		echo '</td>';
-		echo '</tr>';
-
-		echo '<tr>';
-		echo '<th><label for="run_steps" class="run_steps_label">' . __( 'Steps', $this->theme_name ) . '</label></th>';
-		echo '<td>';
-		echo '<input type="number" id="run_steps" name="run_steps" class="run_steps_field" placeholder="' . esc_attr__( '', $this->theme_name ) . '" value="' . esc_attr__( $run_steps ) . '">';
-		echo '</td>';
-		echo '</tr>';
-
-		echo '</table>';
-	}
-
-
-	/**
-	 * Save the meta when the post is saved
-     *
-     * @param 	int 	$post_id 	The ID of the post being saved.
-	 */
-	public function save_metabox( $post_id ) {
-
-		// Add nonce for security and authentication.
-		$nonce_name   = $_POST['run_nonce'];
-		$nonce_action = 'run_nonce_action';
-
-		// Check if a nonce is set.
-		if ( ! isset( $nonce_name ) )
-			return;
-
-		// Check if a nonce is valid.
-		if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) )
-			return;
-
-		// Check if the user has permissions to save data.
-		if ( ! current_user_can( 'edit_post', $post_id ) )
-			return;
-
-		// Check if it's not an autosave.
-		if ( wp_is_post_autosave( $post_id ) )
-			return;
-
-		// Check if it's not a revision.
-		if ( wp_is_post_revision( $post_id ) )
-			return;
-
-		// Sanitize user input.
-		$run_duration = isset( $_POST[ 'run_duration' ] ) ? sanitize_text_field( $_POST[ 'run_duration' ] ) : '';
-		$run_steps = isset( $_POST[ 'run_steps' ] ) ? sanitize_text_field( $_POST[ 'run_steps' ] ) : '';
-
-		// Update the meta field in the database.
-		update_post_meta( $post_id, 'run_duration', $run_duration );
-		update_post_meta( $post_id, 'run_steps', $run_steps );
-
 	}
 
 
@@ -369,9 +255,9 @@ class Run {
 		
 		wp_enqueue_script( 
 			'manage-wp-posts-using-bulk-quick-edit', 
-			trailingslashit( get_bloginfo( 'stylesheet_directory' ) ) . 'inc/post-types/run.js', 
+			get_template_directory_uri() . '/inc/post-types/run/js/run.js', 
 			array( 'jquery', 'inline-edit-post' ), 
-			'', 
+			null, 
 			true 
 		);
 		
@@ -500,6 +386,43 @@ function get_run_steps( $post_id = false ) {
 function the_run_steps( $post_id = false ) {
 	
 	echo get_run_steps( $post_id );	                                      
+}
+
+
+/**
+ * Get Run date
+ *
+ * @param 	string      	$format Optional. 	PHP date format defaults to the 
+ *                             					date_format option if not 
+ *                             					specified.
+ * @param  	int|WP_Post 	$post 	Optional. 	Post ID or WP_Post object. 
+ *                              				Default current post.
+ * @author 	Jérémy Levron 	levronjeremy@19h47.fr
+ */
+function get_run_date( $format = '', $post = null ) {
+	$post = get_post( $post );
+
+	if ( ! $post ) {
+		return false;
+	}
+
+	if( $format == '' ) {
+		$format = 'j F Y G \h i \m\i\n';
+	}
+
+	return get_the_date( $format, $post_id );
+}
+
+
+/**
+ * The Run date
+ *
+ * @param  boolean 					$post_id
+ * @author 	Jérémy Levron 			levronjeremy@19h47.fr
+ */
+function the_run_date( $format = '', $post_id = false ) {
+	
+	echo get_run_date( $format, $post_id );	                                      
 }
 
 /**
