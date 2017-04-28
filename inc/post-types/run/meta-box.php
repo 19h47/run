@@ -95,6 +95,13 @@ class Meta_Box {
         echo '</td>';
         echo '</tr>';
 
+        echo '<tr>';
+        echo '<th><label for="run_steps" class="run_calories_label">' . __( 'Calories', $this->theme_name ) . '</label></th>';
+        echo '<td>';
+        echo '<input type="number" id="run_steps" name="run_calories" class="run_calories_field" placeholder="' . esc_attr__( '', $this->theme_name ) . '" value="' . esc_attr__( $run_calories ) . '">';
+        echo '</td>';
+        echo '</tr>';
+
         echo '</table>';
     }
  
@@ -138,9 +145,11 @@ class Meta_Box {
         // Sanitize user input.
         $run_duration = isset( $_POST[ 'run_duration' ] ) ? sanitize_text_field( $_POST[ 'run_duration' ] ) : '';
         $run_steps = isset( $_POST[ 'run_steps' ] ) ? sanitize_text_field( $_POST[ 'run_steps' ] ) : '';
+        $run_calories = isset( $_POST[ 'run_calories' ] ) ? sanitize_text_field( $_POST[ 'run_calories' ] ) : '';
 
         // Update the meta field in the database.
         update_post_meta( $post_id, 'run_duration', $run_duration );
         update_post_meta( $post_id, 'run_steps', $run_steps );
+        update_post_meta( $post_id, 'run_calories', $run_calories );
     }
 }

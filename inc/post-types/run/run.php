@@ -44,7 +44,8 @@ class Run {
 		add_action( 'manage_run_posts_custom_column' , array( $this, 'run_custom_columns' ), 10, 2 );
 
 		add_filter( 'manage_edit-run_sortable_columns', array( $this, 'sortable_run_column' ) );
-		add_action( 'pre_get_posts', array( $this, 'steps_orderby' ) ); 
+		add_action( 'pre_get_posts', array( $this, 'steps_orderby' ) );
+		add_action( 'pre_get_posts', array( $this, 'calories_orderby' ) ); 
 
 		add_action( 'quick_edit_custom_box',  array( $this, 'add_quick_edit' ), 10, 2 );
 		add_action( 'admin_print_scripts-edit.php', array( $this, 'enqueue_script_quick_edit' ) );
@@ -130,8 +131,9 @@ class Run {
 
 	    return array_merge( $columns, 
 	    	array( 
-	    		'duration' => 'Duration',
-	    		'steps' =>'Steps'
+	    		'duration' 	=> 'Duration',
+	    		'steps' 	=> 'Steps',
+	    		'calories'	=> 'Calories'
 	    	) 
 	    );
 	}
@@ -156,6 +158,15 @@ class Run {
 		    
 		        echo '<div id="run_steps-' . $post_id . '">' . get_post_meta( $post_id, 'run_steps', true ) . '</div>';
 		        break;
+
+		    case 'calories' :
+		    
+		        echo '<div id="run_calories-' . $post_id . '">';
+
+		        echo ! empty( get_post_meta( $post_id, 'run_calories', true ) ) ? get_post_meta( $post_id, 'run_calories', true ) : '—';
+		        
+		        echo '</div>';
+		        break;
 	    }
 	}
 
@@ -169,6 +180,7 @@ class Run {
 
 	    $sortable_columns['duration'] = 'run_duration';
 	    $sortable_columns['steps'] = 'run_steps';
+	    $sortable_columns['calories'] = 'run_calories';
 
 	 
 	    return $sortable_columns;
@@ -198,6 +210,37 @@ class Run {
 	    	case 'run_steps':
 	    				
 				$query->set( 'meta_key', 'run_steps' );
+				$query->set( 'orderby', 'meta_value_num' );
+				
+				break;
+					
+	    }
+	}
+
+
+	/**
+	 * steps orderby
+	 * 
+	 * @param $query
+	 */
+	function calories_orderby( $query ) {
+	  	
+	  	if ( ! is_admin() ) {
+	    	return;
+	  	}
+
+	    if ( ! $query->is_main_query() ) {
+	    	return;
+	    } 
+
+	    if ( ! $orderby = $query->get( 'orderby' ) ) {
+	    	return;
+	    }
+
+	    switch( $orderby ) {
+	    	case 'run_calories':
+	    				
+				$query->set( 'meta_key', 'run_calories' );
 				$query->set( 'orderby', 'meta_value_num' );
 				
 				break;
@@ -247,6 +290,22 @@ class Run {
 	         	</fieldset><?php
 
 	            break;
+
+		    case 'calories' :
+
+        		?>
+        		<fieldset class="inline-edit-col-left">
+            		<div class="inline-edit-col">
+		            	<label>
+		    				<span class="title">Calories</span>
+		    				<span class="input-text-wrap">
+		    					<input type="number" name="run_calories" class="" value="">
+		    				</span>
+		    			</label>
+		            </div>
+	         	</fieldset><?php
+
+	            break;
 	    }
 	}
 
@@ -286,7 +345,7 @@ class Run {
 		
 			case 'run':
 			
-				$custom_fields = array( 'run_duration', 'run_steps' );
+				$custom_fields = array( 'run_duration', 'run_steps', 'run_calories' );
 				
 				foreach( $custom_fields as $field ) {
 				
@@ -312,7 +371,7 @@ class Run {
 		if ( ! empty( $post_ids ) && is_array( $post_ids ) ) {
 		
 			// get the custom fields
-			$custom_fields = array( 'run_duration', 'run_steps' );
+			$custom_fields = array( 'run_duration', 'run_steps', 'run_calories' );
 			
 			foreach( $custom_fields as $field ) {
 				
@@ -394,12 +453,7 @@ function the_run_steps( $post_id = false ) {
  *                              				Default current post.
  * @author 	Jérémy Levron 	levronjeremy@19h47.fr
  */
-function get_run_date( $format = '', $post = null ) {
-	$post = get_post( $post );
-
-	if ( ! $post ) {
-		return false;
-	}
+function get_run_date( $format = '', $post_id = false ) {
 
 	if( $format == '' ) {
 		$format = 'j F Y G \h i \m\i\n';
@@ -442,4 +496,29 @@ function get_run_duration( $post_id = false ) {
 function the_run_duration( $post_id = false ) {
 	
 	echo get_run_duration( $post_id );	                                      
+}
+
+
+/**
+ * Get Run calories
+ * 
+ * @param  	boolean 				$post_id
+ * @return 	function 				get_run_meta
+ * @author 	Jérémy Levron 			levronjeremy@19h47.fr
+ */
+function get_run_calories( $post_id = false ) {
+	
+	return get_run_meta( $post_id, 'run_calories' );
+}
+
+
+/**
+ * The Run calories
+ *
+ * @param  boolean 					$post_id
+ * @author 	Jérémy Levron 			levronjeremy@19h47.fr
+ */
+function the_run_calories( $post_id = false ) {
+	
+	echo get_run_calories( $post_id );	                                      
 }
