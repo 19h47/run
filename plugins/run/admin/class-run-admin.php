@@ -1,7 +1,6 @@
 <?php
-
 /**
- * The admin-specific functionality of the plugin.
+ * The dashboard-specific functionality of the plugin.
  *
  * @link       http://www.19h47.fr
  * @since      1.0.0
@@ -10,12 +9,14 @@
  * @subpackage Run/admin
  */
 
+
 /**
- * The admin-specific functionality of the plugin.
+ * The dashboard-specific functionality of the plugin.
  *
  * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
+ * enqueue the dashboard-specific stylesheet and JavaScript.
  *
+ * @since      1.0.0
  * @package    Run
  * @subpackage Run/admin
  * @author     Levron Jérémy <levronjeremy@19h47.fr>
@@ -25,82 +26,69 @@ class Run_Admin {
 	/**
 	 * The ID of this plugin.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $plugin_name    The ID of this plugin.
+	 * @since 		1.0.0
+	 * @access 		private
+	 * @var 		string 			$plugin_name 		The ID of this plugin.
 	 */
 	private $plugin_name;
-
+	
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since    1.0.0
-	 * @access   private
-	 * @var      string    $version    The current version of this plugin.
+	 * @since 		1.0.0
+	 * @access 		private
+	 * @var 		string 			$version 			The current version of this plugin.
 	 */
 	private $version;
-
+	
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of this plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @since 		1.0.0
+	 * @param 		string 			$Now_Hiring 		The name of this plugin.
+	 * @param 		string 			$version 			The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
-
 		$this->plugin_name = $plugin_name;
 		$this->version = $version;
 
+		$this->load_dependencies();
 	}
 
 
-	/**
-	 * Register the stylesheets for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_styles() {
+	private function load_dependencies() {
 
 		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Run_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Run_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
+		 * Registrations
 		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-registrations.php';
 
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/run-admin.css', array(), $this->version, 'all' );
+		new Run_Registrations( $this->plugin_name, $this->version );
 
-	}
-
-
-	/**
-	 * Register the JavaScript for the admin area.
-	 *
-	 * @since    1.0.0
-	 */
-	public function enqueue_scripts() {
 
 		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Run_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Run_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
+		 * Metaxboxes
 		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-metaboxes.php';
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/run-admin.js', array( 'jquery' ), $this->version, false );
+		new Run_Metaboxes( $this->plugin_name, $this->version );
 
+
+		/**
+		 * Columns
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-columns.php';
+
+		new Run_Columns( $this->plugin_name, $this->version );
+
+
+		/**
+		 * Quick edit
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-quick-edit.php';
+
+		new Run_Quick_Edit( $this->plugin_name, $this->version );
 	}
 }

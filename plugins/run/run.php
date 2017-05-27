@@ -29,7 +29,7 @@ if ( ! defined( 'WPINC' ) ) {
 
 /**
  * The core plugin class that is used to define internationalization,
- * admin-specific hooks, and public-facing site hooks.
+ * dashboard-specific hooks, and public-facing site hooks.
  */
 require plugin_dir_path( __FILE__ ) . 'includes/class-run.php';
 
@@ -41,15 +41,10 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-run.php';
  * then kicking off the plugin from this point in the file does
  * not affect the page life cycle.
  *
- * @since    1.0.0
+ * @since 		1.0.0
  */
-function run_run() {
-
+function run_Run() {
 	$plugin = new Run();
 	$plugin->run();
-
 }
-
-
-// Run, Forrest, Run!
-run_run();
+run_Run(); // Run, Forrest, run!
