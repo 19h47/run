@@ -6,7 +6,7 @@
  * @since      1.0.0
  *
  * @package    Run
- * @subpackage Run/admin
+ * @subpackage run/admin
  */
 
 
@@ -18,13 +18,13 @@
  *
  * @since      1.0.0
  * @package    Run
- * @subpackage Run/admin
+ * @subpackage run/admin
  * @author     Levron Jérémy <levronjeremy@19h47.fr>
  */
 class Run_Admin {
 
 	/**
-	 * The ID of this plugin.
+	 * The name of this plugin.
 	 *
 	 * @since 		1.0.0
 	 * @access 		private
@@ -38,21 +38,21 @@ class Run_Admin {
 	 *
 	 * @since 		1.0.0
 	 * @access 		private
-	 * @var 		string 			$version 			The current version of this plugin.
+	 * @var 		string 			$plugin_version 	The current version of this plugin.
 	 */
-	private $version;
+	private $plugin_version;
 	
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
 	 * @since 		1.0.0
-	 * @param 		string 			$Now_Hiring 		The name of this plugin.
-	 * @param 		string 			$version 			The version of this plugin.
+	 * @param 		string 			$plugin_name 		The name of this plugin.
+	 * @param 		string 			$plugin_version 	The version of this plugin.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( $plugin_name, $plugin_version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->plugin_version = $plugin_version;
 
 		$this->load_dependencies();
 	}
