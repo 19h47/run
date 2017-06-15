@@ -6,7 +6,7 @@
  * @since      1.0.0
  *
  * @package    Run
- * @subpackage Run/includes
+ * @subpackage run/admin
  */
 
 
@@ -15,7 +15,7 @@
  *
  * @since      1.0.0
  * @package    Run
- * @subpackage Run/admin
+ * @subpackage run/admin
  * @author     Levron Jérémy <levronjeremy@19h47.fr>
  */
 class Run_Registrations {
@@ -29,23 +29,23 @@ class Run_Registrations {
 
 
 	/**
-     * The unique identifier of this plugin.
-     *
-     * @since    1.0.0
-     * @access   protected
-     * @var      string    $plugin_name    The string used to uniquely identify this plugin.
-     */
-    protected $plugin_name;
+	 * The unique identifier of this plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   protected
+	 * @var      string    $plugin_name    The string used to uniquely identify this plugin.
+	 */
+	protected $plugin_name;
     
 
-    /**
-     * The version of the plugin.
-     *
-     * @since    1.0.0
-     * @access   private
-     * @var      string    $version    The current version of this plugin.
-     */
-    private $plugin_version;
+	/**
+	 * The version of the plugin.
+	 *
+	 * @since    1.0.0
+	 * @access   private
+	 * @var      string    $version    The current version of this plugin.
+	 */
+	private $plugin_version;
 
 
 	/**
@@ -53,7 +53,7 @@ class Run_Registrations {
 	 */
 	public function __construct( $plugin_name, $plugin_version ) {
 		$this->plugin_name = $plugin_name;
-        $this->plugin_version = $plugin_version;
+        	$this->plugin_version = $plugin_version;
 
 		// Add the Run post type
 		add_action( 'init', array( $this, 'register_post_type' ) );
@@ -73,7 +73,7 @@ class Run_Registrations {
 			'menu_name'             => __( 'Runs', $this->plugin_name ),
 			'name_admin_bar'        => __( 'Run', $this->plugin_name ),
 			'archives'              => __( 'Run Archives', $this->plugin_name ),
-			'attributes'			=> __( 'Item Attributes', $this->plugin_name ),
+			'attributes'		=> __( 'Item Attributes', $this->plugin_name ),
 			'parent_item_colon'     => __( 'Parent Run:', $this->plugin_name ),
 			'all_items'             => __( 'All runs', $this->plugin_name ),
 			'add_new_item'          => __( 'Add New Run', $this->plugin_name ),
@@ -81,7 +81,7 @@ class Run_Registrations {
 			'new_item'              => __( 'New Run', $this->plugin_name ),
 			'edit_item'             => __( 'Edit run', $this->plugin_name ),
 			'update_item'           => __( 'Update run', $this->plugin_name ),
-	        'view_item'             => __( 'View Run', $this->plugin_name ),
+	        	'view_item'             => __( 'View Run', $this->plugin_name ),
 			'view_items'            => __( 'View Runs', $this->plugin_name ),
 			'search_items'          => __( 'Search Run', $this->plugin_name ),
 			'not_found'             => __( 'Not found', $this->plugin_name ),
@@ -103,9 +103,9 @@ class Run_Registrations {
 
 
 		$rewrite = array(
-	        'slug'          => 'runs',
-	        'with_front'    => false,
-	    );
+	        	'slug'          => 'runs',
+	        	'with_front'    => false,
+	   	);
 
 
 		$args = array(
@@ -124,7 +124,7 @@ class Run_Registrations {
 			'show_in_nav_menus'     => true,
 			'can_export'            => true,
 			'has_archive'           => true,
-			'rewrite'				=> $rewrite,		
+			'rewrite'		=> $rewrite,		
 			'exclude_from_search'   => false,
 			'publicly_queryable'    => true,
 			'capability_type'       => 'post',
