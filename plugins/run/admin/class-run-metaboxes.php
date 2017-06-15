@@ -7,7 +7,7 @@
  * @since      1.0.0
  *
  * @package    Run
- * @subpackage Run/admin
+ * @subpackage run/admin
  */
 
 
@@ -16,74 +16,74 @@
  * 
  * @since      1.0.0
  * @package    Run
- * @subpackage Run/includes
+ * @subpackage run/adlin
  * @author     Levron Jérémy <levronjeremy@19h47.fr>
  */
 class Run_Metaboxes {
 
-    /**
-     * The ID of this plugin.
-     *
-     * @since       1.0.0
-     * @access      private
-     * @var         string          $plugin_name        The ID of this plugin.
-     */
-    private $plugin_name;
+	/**
+	 * The ID of this plugin.
+	 *
+	 * @since       1.0.0
+	 * @access      private
+	 * @var         string          $plugin_name        The ID of this plugin.
+	 */
+	private $plugin_name;
     
 
-    /**
-     * The version of this plugin.
-     *
-     * @since       1.0.0
-     * @access      private
-     * @var         string          $version            The current version of this plugin.
-     */
-    private $version;
+	/**
+	 * The version of this plugin.
+	 *
+	 * @since       1.0.0
+	 * @access      private
+	 * @var         string          $version            The current version of this plugin.
+	 */
+	private $version;
 
  
-    /**
-     * Constructor
-     */
-    public function __construct( $plugin_name, $version ) {
-        $this->plugin_name = $plugin_name;
-        $this->version = $version;
-        
-        if ( is_admin() ) {
-            add_action( 'load-post.php', array( $this, 'init_metabox' ) );
-            add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
-        }
- 
-    }
+	/**
+	 * Constructor
+	 */
+	public function __construct( $plugin_name, $version ) {
+		$this->plugin_name = $plugin_name;
+		$this->version = $version;
+
+		if ( is_admin() ) {
+	    		add_action( 'load-post.php', array( $this, 'init_metabox' ) );
+	    		add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
+		}
+	}
  
 
-    /**
-     * Meta box initialization
-     *
-     * @see https://generatewp.com/snippet/90jakpm/
-     */
-    public function init_metabox() {
+	/**
+	 * Meta box initialization
+	 *
+	 * @see https://generatewp.com/snippet/90jakpm/
+	 */
+	public function init_metabox() {
 
-        add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
-        add_action( 'save_post', array( $this, 'save_metabox' ), 10, 2 );
-    }
+		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
+		add_action( 'save_post', array( $this, 'save_metabox' ), 10, 2 );
+	}
  
-    /**
-     * Adds the meta box
-     *
-     * 
+	
+	/**
+	 * Adds the meta box
+	 *
+	 * 
 	 * $id, $title, $callback, $page, $context, $priority, $callback_args
 	 * @see  https://developer.wordpress.org/reference/functions/add_meta_box/
 	 */
-    public function add_metabox() {
-        add_meta_box(
-        	'run_information', 
-        	__( 'Information', $this->plugin_name ), 
-        	array( $this, 'render_metabox' ),
-        	'run', 
-        	'side', 
-        	'default'
-        );
-    }
+    	public function add_metabox() {
+        	add_meta_box(
+			'run_information', 
+			__( 'Information', $this->plugin_name ), 
+			array( $this, 'render_metabox' ),
+			'run', 
+			'side', 
+			'default'
+        	);
+    	}
 
  
     /**
@@ -104,7 +104,7 @@ class Run_Metaboxes {
         if ( empty( $run_calories ) ) $run_calories = '';
 
         include( plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-form.php' );
-    }
+	}
  
     /**
      * Handles saving the meta box
