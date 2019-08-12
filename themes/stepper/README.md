@@ -1,2 +1,0 @@
-# stepper
-Side project

@@ -1,10 +1,10 @@
 === Plugin Name ===
 Contributors: 19h47
 Donate link: http://www.19h47.fr
-Tags: Custom Post Type
-Requires at least: 
-Tested up to: 
-Stable tag: 
+Tags: Run
+Requires at least:
+Tested up to:
+Stable tag:
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

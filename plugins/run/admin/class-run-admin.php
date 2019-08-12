@@ -26,32 +26,32 @@ class Run_Admin {
 	/**
 	 * The name of this plugin.
 	 *
-	 * @since 		1.0.0
-	 * @access 		private
-	 * @var 		string 			$plugin_name 		The ID of this plugin.
+	 * @since 1.0.0
+	 * @access private
+	 * @var string $plugin_name The ID of this plugin.
 	 */
 	private $plugin_name;
-	
+
 
 	/**
 	 * The version of this plugin.
 	 *
-	 * @since 		1.0.0
-	 * @access 		private
-	 * @var 		string 			$plugin_version 	The current version of this plugin.
+	 * @since 1.0.0
+	 * @access private
+	 * @var string $plugin_version The current version of this plugin.
 	 */
 	private $plugin_version;
-	
+
 
 	/**
 	 * Initialize the class and set its properties.
 	 *
-	 * @since 		1.0.0
-	 * @param 		string 			$plugin_name 		The name of this plugin.
-	 * @param 		string 			$plugin_version 	The version of this plugin.
+	 * @since 1.0.0
+	 * @param string $plugin_name The name of this plugin.
+	 * @param string $plugin_version The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $plugin_version ) {
-		$this->plugin_name = $plugin_name;
+		$this->plugin_name    = $plugin_name;
 		$this->plugin_version = $plugin_version;
 
 		$this->load_dependencies();
@@ -67,7 +67,6 @@ class Run_Admin {
 
 		new Run_Registrations( $this->plugin_name, $this->version );
 
-
 		/**
 		 * Metaxboxes
 		 */
@@ -75,14 +74,12 @@ class Run_Admin {
 
 		new Run_Metaboxes( $this->plugin_name, $this->version );
 
-
 		/**
 		 * Columns
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-columns.php';
 
 		new Run_Columns( $this->plugin_name, $this->version );
-
 
 		/**
 		 * Quick edit
