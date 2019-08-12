@@ -6,7 +6,7 @@
  * @since      1.0.0
  *
  * @package    Run
- * @subpackage Run/includes
+ * @subpackage run/admin
  */
 
 
@@ -15,7 +15,7 @@
  *
  * @since      1.0.0
  * @package    Run
- * @subpackage Run/admin
+ * @subpackage run/admin
  * @author     Levron Jérémy <levronjeremy@19h47.fr>
  */
 class Run_Registrations {
