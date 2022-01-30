@@ -1,22 +1,19 @@
 <?php
-
 /**
  * The file that defines the core plugin class
  *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://www.19h47.fr
+ * @link       https://www.19h47.fr
  * @since      1.0.0
  *
  * @package    Run
  * @subpackage Run/includes
  */
 
-
 /**
  * The core plugin class.
- *
  *
  * Also maintains the unique identifier of this plugin as well as the current
  * version of the plugin.
@@ -24,7 +21,7 @@
  * @since      1.0.0
  * @package    Run
  * @subpackage Run/includes
- * @author     Levron Jérémy <levronjeremy@19h47.fr>
+ * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
 class Run {
 
@@ -51,15 +48,16 @@ class Run {
 	/**
 	 * Construct function
 	 *
+	 * @param string $plugin_version The plugin version.
+	 *
 	 * @access public
 	 */
-	public function __construct() {
+	public function __construct( string $plugin_version = '1.0.0' ) {
 		$this->plugin_name    = 'run';
-		$this->plugin_version = '1.0.0';
+		$this->plugin_version = $plugin_version;
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
-
 	}
 
 
@@ -154,6 +152,6 @@ class Run {
 	 * @return string The version number of the plugin.
 	 */
 	public function get_version() {
-		return $this->version;
+		return $this->plugin_version;
 	}
 }

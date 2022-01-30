@@ -2,13 +2,12 @@
 /**
  * The dashboard-specific functionality of the plugin.
  *
- * @link       http://www.19h47.fr
+ * @link       https://www.19h47.fr
  * @since      1.0.0
  *
  * @package    Run
  * @subpackage run/admin
  */
-
 
 /**
  * The dashboard-specific functionality of the plugin.
@@ -19,7 +18,7 @@
  * @since      1.0.0
  * @package    Run
  * @subpackage run/admin
- * @author     Levron Jérémy <levronjeremy@19h47.fr>
+ * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
 class Run_Admin {
 
@@ -57,7 +56,9 @@ class Run_Admin {
 		$this->load_dependencies();
 	}
 
-
+	/**
+	 * Load dependencies
+	 */
 	private function load_dependencies() {
 
 		/**
@@ -65,27 +66,27 @@ class Run_Admin {
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-registrations.php';
 
-		new Run_Registrations( $this->plugin_name, $this->version );
+		new Run_Registrations( $this->plugin_name, $this->plugin_version );
 
 		/**
 		 * Metaxboxes
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-metaboxes.php';
 
-		new Run_Metaboxes( $this->plugin_name, $this->version );
+		new Run_Metaboxes( $this->plugin_name, $this->plugin_version );
 
 		/**
 		 * Columns
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-columns.php';
 
-		new Run_Columns( $this->plugin_name, $this->version );
+		new Run_Columns( $this->plugin_name, $this->plugin_version );
 
 		/**
 		 * Quick edit
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-quick-edit.php';
 
-		new Run_Quick_Edit( $this->plugin_name, $this->version );
+		new Run_Quick_Edit( $this->plugin_name, $this->plugin_version );
 	}
 }

@@ -1,24 +1,22 @@
 <?php
-
 /**
- * Run Post Type
+ * Run
  *
- * @link              http://www.19h47.fr
+ * @link              https://www.19h47.fr
  * @since             1.0.0
  * @package           Run
  *
  * @wordpress-plugin
  * Plugin Name: Run
- * Plugin URI: http://stepper.19h47.fr/
- * Description: Enables a run post type, taxonomy and metaboxes.
- * Version: 1.0.0
+ * Plugin URI: http://github.com/19h47/run
+ * Description: Enables a Run post type, taxonomy and metaboxes.
+ * Version: 2.0.0
  * Author: Jérémy Levron
- * Author URI: http://www.19h47.fr
+ * Author URI: https://www.19h47.fr
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: run
  */
-
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -43,7 +41,12 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-run.php';
  * @since 1.0.0
  */
 function run_run() {
-	$plugin = new Run();
+	if ( ! function_exists( 'get_plugin_data' ) ) {
+		require_once ABSPATH . 'wp-admin/includes/plugin.php';
+	}
+	$plugin_data = get_plugin_data( __FILE__ );
+
+	$plugin = new Run( $plugin_data['Version'] );
 	$plugin->run();
 }
 run_run(); // Run, Forrest, run!

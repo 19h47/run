@@ -2,13 +2,12 @@
 /**
  * Run Post Type
  *
- * @link       http://www.19h47.fr
+ * @link       https://www.19h47.fr
  * @since      1.0.0
  *
  * @package    Run
  * @subpackage run/admin
  */
-
 
 /**
  * Register post types and taxonomies.
@@ -16,7 +15,7 @@
  * @since      1.0.0
  * @package    Run
  * @subpackage run/admin
- * @author     Levron Jérémy <levronjeremy@19h47.fr>
+ * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
 class Run_Registrations {
 
@@ -49,13 +48,16 @@ class Run_Registrations {
 
 
 	/**
-	 * init
+	 * Init
+	 *
+	 * @param string $plugin_name The name of the plugin.
+	 * @param string $plugin_version     The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $plugin_version ) {
 		$this->plugin_name    = $plugin_name;
 		$this->plugin_version = $plugin_version;
 
-		// Add the Run post type
+		// Add the Run post type.
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_filter( 'dashboard_glance_items', array( $this, 'at_a_glance' ) );
 		add_action( 'admin_head', array( $this, 'css' ) );
@@ -176,7 +178,6 @@ class Run_Registrations {
 
 	/**
 	 * CSS
-	 *
 	 */
 	public function css() {
 		echo '<style>#dashboard_right_now .run-count:before { content: "\f239"; }</style>';

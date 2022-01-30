@@ -2,13 +2,12 @@
 /**
  * Register all actions and filters for the plugin
  *
- * @link       http://www.19h47.fr
+ * @link       https://www.19h47.fr
  * @since      1.0.0
  *
  * @package    Run
  * @subpackage Run/includes
  */
-
 
 /**
  * Register all actions and filters for the plugin.
@@ -20,7 +19,7 @@
  * @since      1.0.0
  * @package    Run
  * @subpackage Run/includes
- * @author     Levron Jérémy <levronjeremy@19h47.fr>
+ * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
 class Run_Loader {
 
@@ -45,6 +44,7 @@ class Run_Loader {
 
 
 	/**
+	 * Instance
 	 *
 	 * @since 1.0.0
 	 * @access private
@@ -68,9 +68,9 @@ class Run_Loader {
 	 * Add a new action to the collection to be registered with WordPress.
 	 *
 	 * @since 1.0.0
-	 * @param string $hook The name of the WordPress action that is being registered.
-	 * @param object $component A reference to the instance of the object on which the action is defined.
-	 * @param string $callback The name of the function definition on the $component.
+	 * @param string       $hook The name of the WordPress action that is being registered.
+	 * @param object       $component A reference to the instance of the object on which the action is defined.
+	 * @param string       $callback The name of the function definition on the $component.
 	 * @param int Optional $priority The priority at which the function should be fired.
 	 * @param int Optional $accepted_args The number of arguments that should be passed to the $callback.
 	 */
@@ -83,9 +83,9 @@ class Run_Loader {
 	 * Add a new filter to the collection to be registered with WordPress.
 	 *
 	 * @since 1.0.0
-	 * @param string $hook The name of the WordPress filter that is being registered.
-	 * @param object $component A reference to the instance of the object on which the filter is defined.
-	 * @param string $callback The name of the function definition on the $component.
+	 * @param string       $hook The name of the WordPress filter that is being registered.
+	 * @param object       $component A reference to the instance of the object on which the filter is defined.
+	 * @param string       $callback The name of the function definition on the $component.
 	 * @param int Optional $priority The priority at which the function should be fired.
 	 * @param int Optional $accepted_args The number of arguments that should be passed to the $callback.
 	 */
@@ -100,10 +100,10 @@ class Run_Loader {
 	 *
 	 * @since 1.0.0
 	 * @access private
-	 * @param array $hooks The collection of hooks that is being registered (that is, actions or filters).
-	 * @param string $hook The name of the WordPress filter that is being registered.
-	 * @param object $component A reference to the instance of the object on which the filter is defined.
-	 * @param string $callback The name of the function definition on the $component.
+	 * @param array        $hooks The collection of hooks that is being registered (that is, actions or filters).
+	 * @param string       $hook The name of the WordPress filter that is being registered.
+	 * @param object       $component A reference to the instance of the object on which the filter is defined.
+	 * @param string       $callback The name of the function definition on the $component.
 	 * @param int Optional $priority The priority at which the function should be fired.
 	 * @param int Optional $accepted_args The number of arguments that should be passed to the $callback.
 	 * @return type The collection of actions and filters registered with WordPress.
@@ -139,9 +139,9 @@ class Run_Loader {
 	 *
 	 * @since       1.0.0
 	 * @access      protected
-	 * @param      string               $hook             The name of the WordPress filter that is being registered.
-	 * @param      object               $component        A reference to the instance of the object on which the filter is defined.
-	 * @param      string               $callback         The name of the function definition on the $component.
+	 * @param      string $hook             The name of the WordPress filter that is being registered.
+	 * @param      object $component        A reference to the instance of the object on which the filter is defined.
+	 * @param      string $callback         The name of the function definition on the $component.
 	 *
 	 * @return string
 	 */
@@ -158,9 +158,9 @@ class Run_Loader {
 	 * Usage Plugin_Name_Loader::get_instance()->remove( $hook, $component, $callback );
 	 *
 	 * @since      1.0.0
-	 * @param      string               $hook             The name of the WordPress filter that is being registered.
-	 * @param      object               $component        A reference to the instance of the object on which the filter is defined.
-	 * @param      string               $callback         The name of the function definition on the $component.
+	 * @param      string $hook             The name of the WordPress filter that is being registered.
+	 * @param      object $component        A reference to the instance of the object on which the filter is defined.
+	 * @param      string $callback         The name of the function definition on the $component.
 	 */
 	public function remove( $hook, $component, $callback ) {
 		$index = $this->hook_index( $hook, $component, $callback );

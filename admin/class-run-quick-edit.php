@@ -3,7 +3,7 @@
 /**
  * Quick edit
  *
- * @link       http://www.19h47.fr
+ * @link       https://www.19h47.fr
  * @since      1.0.0
  *
  * @package    Run
@@ -17,7 +17,7 @@
  * @since      1.0.0
  * @package    Run
  * @subpackage Run/includes
- * @author     Levron Jérémy <levronjeremy@19h47.fr>
+ * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
 class Run_Quick_Edit {
 
@@ -48,7 +48,7 @@ class Run_Quick_Edit {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
-		add_action( 'quick_edit_custom_box', array( $this, 'add_quick_edit' ), 10, 2 );
+		add_action( 'quick_edit_custom_box', array( $this, 'add_quick_edit_custom_box' ), 10, 3 );
 		add_action( 'admin_print_scripts-edit.php', array( $this, 'enqueue_script_quick_edit' ) );
 		add_action( 'save_post', array( $this, 'save_quick_edit' ), 10, 2 );
 		add_action( 'wp_ajax_manage_wp_posts_using_bulk_quick_save_bulk_edit', array( $this, 'manage_quick_edit' ) );
@@ -56,26 +56,27 @@ class Run_Quick_Edit {
 
 
 	/**
-	 * add quick edit
+	 * Add quick edit custom box
 	 *
-	 * @param $column_name
-	 * @param $post_type
+	 * @param string $column_name Name of the column to edit.
+	 * @param string $post_type The post type slug, or current screen name if this is a taxonomy list table.
+	 * @param string $taxonomy The taxonomy name, if any.
 	 */
-	function add_quick_edit( $column_name, $post_type ) {
+	public function add_quick_edit_custom_box( string $column_name, string $post_type, string $taxonomy ) {
 
 		switch ( $column_name ) {
 			case 'steps':
-				include( plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-number.php' );
+				include plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-number.php';
 
 				break;
 
 			case 'duration':
-				include( plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-time.php' );
+				include plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-time.php';
 
 				break;
 
 			case 'calories':
-				include( plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-number.php' );
+				include plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-number.php';
 
 				break;
 		}
