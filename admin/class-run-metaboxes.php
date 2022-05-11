@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Metaboxes
  *
@@ -6,53 +7,52 @@
  * @since      1.0.0
  *
  * @package    Run
- * @subpackage run/admin
+ * @subpackage Run/admin
  */
+
 
 /**
  * Metaboxes
  *
  * @since      1.0.0
  * @package    Run
- * @subpackage run/adlin
+ * @subpackage Run/admin
  * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
 class Run_Metaboxes {
 
 	/**
-	 * The plugin name
+	 * The ID of this plugin.
 	 *
 	 * @since       1.0.0
 	 * @access      private
-	 * @var         string $plugin_name The name of this plugin.
+	 * @var         string          $plugin_name        The ID of this plugin.
 	 */
 	private $plugin_name;
 
 
 	/**
-	 * The plugin version
+	 * The version of this plugin.
 	 *
 	 * @since       1.0.0
 	 * @access      private
-	 * @var         string $plugin_version The version of this plugin.
+	 * @var         string          $version            The current version of this plugin.
 	 */
-	private $plugin_version;
+	private $version;
 
 
 	/**
 	 * Constructor
-	 *
-	 * @param string $plugin_name The name of the plugin.
-	 * @param string $plugin_version     The version of this plugin.
 	 */
-	public function __construct( string $plugin_name, string $plugin_version ) {
+	public function __construct( $plugin_name, $version ) {
 		$this->plugin_name = $plugin_name;
-		$this->version     = $plugin_version;
+		$this->version     = $version;
 
 		if ( is_admin() ) {
 			add_action( 'load-post.php', array( $this, 'init_metabox' ) );
 			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
 		}
+
 	}
 
 
@@ -62,18 +62,18 @@ class Run_Metaboxes {
 	 * @see https://generatewp.com/snippet/90jakpm/
 	 */
 	public function init_metabox() {
-		add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
 		add_action( 'save_post', array( $this, 'save_metabox' ), 10, 2 );
 	}
 
 	/**
-	 * Add Meta Box
+	 * Adds the meta box
 	 *
 	 * $id, $title, $callback, $page, $context, $priority, $callback_args
 	 *
 	 * @see  https://developer.wordpress.org/reference/functions/add_meta_box/
 	 */
-	public function add_meta_box() {
+	public function add_metabox() {
 		add_meta_box(
 			'run_information',
 			__( 'Information', 'run' ),
@@ -87,19 +87,18 @@ class Run_Metaboxes {
 
 	/**
 	 * Renders the meta box
-	 *
-	 * @param WP_Post $post The post object.
 	 */
-	public function render_metabox( WP_Post $post ) {
+	public function render_metabox( $post ) {
 		// Add nonce for security and authentication.
-		wp_nonce_field( 'run_nonce_action', 'run_nonce' );
+		wp_nonce_field( 'custom_nonce_action', 'custom_nonce' );
 
-		// Retrieve an existing value from the database.
-		$run_duration = get_run_duration( $post->ID );
-		$run_steps    = get_run_steps( $post->ID );
-		$run_calories = get_run_calories( $post->ID );
+		// Retrieve an existing value from the database
+		$run_duration = get_post_meta( $post->ID, 'run_duration', true );
+		$run_steps    = get_post_meta( $post->ID, 'run_steps', true );
+		$run_calories = get_post_meta( $post->ID, 'run_calories', true );
+		$run_weight   = get_post_meta( $post->ID, 'run_weight', true );
 
-		// Set default values.
+		// Set default values
 		if ( empty( $run_duration ) ) {
 			$run_duration = '';
 		}
@@ -110,6 +109,10 @@ class Run_Metaboxes {
 
 		if ( empty( $run_calories ) ) {
 			$run_calories = '';
+		}
+
+		if ( empty( $run_weight ) ) {
+			$run_weight = '';
 		}
 
 		include plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-form.php';
@@ -123,22 +126,45 @@ class Run_Metaboxes {
 	 * @return null
 	 */
 	public function save_metabox( $post_id, $post ) {
+		// Add nonce for security and authentication.
+		$nonce_name   = isset( $_POST['custom_nonce'] ) ? $_POST['custom_nonce'] : '';
+		$nonce_action = 'custom_nonce_action';
+
+		// Check if nonce is set.
+		if ( ! isset( $nonce_name ) ) {
+			return;
+		}
+
+		// Check if nonce is valid.
+		if ( ! wp_verify_nonce( $nonce_name, $nonce_action ) ) {
+			return;
+		}
+
+		// Check if user has permissions to save data.
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
 			return;
 		}
 
-		if ( ! isset( $_POST['run_nonce'] ) || ! wp_verify_nonce( sanitize_text_field( wp_unslash( $_POST['run_nonce'] ) ), 'run_nonce_action' ) ) {
+		// Check if not an autosave.
+		if ( wp_is_post_autosave( $post_id ) ) {
+			return;
+		}
+
+		// Check if not a revision.
+		if ( wp_is_post_revision( $post_id ) ) {
 			return;
 		}
 
 		// Sanitize user input.
-		$run_duration = isset( $_POST['run_duration'] ) ? sanitize_text_field( wp_unslash( $_POST['run_duration'] ) ) : '';
-		$run_steps    = isset( $_POST['run_steps'] ) ? sanitize_text_field( wp_unslash( $_POST['run_steps'] ) ) : '';
-		$run_calories = isset( $_POST['run_calories'] ) ? sanitize_text_field( wp_unslash( $_POST['run_calories'] ) ) : '';
+		$run_duration = isset( $_POST['run_duration'] ) ? sanitize_text_field( $_POST['run_duration'] ) : '';
+		$run_steps    = isset( $_POST['run_steps'] ) ? sanitize_text_field( $_POST['run_steps'] ) : '';
+		$run_calories = isset( $_POST['run_calories'] ) ? sanitize_text_field( $_POST['run_calories'] ) : '';
+		$run_weight   = isset( $_POST['run_weight'] ) ? sanitize_text_field( $_POST['run_weight'] ) : '';
 
 		// Update the meta field in the database.
 		update_post_meta( $post_id, 'run_duration', $run_duration );
 		update_post_meta( $post_id, 'run_steps', $run_steps );
 		update_post_meta( $post_id, 'run_calories', $run_calories );
+		update_post_meta( $post_id, 'run_weight', $run_weight );
 	}
 }

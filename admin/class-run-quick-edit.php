@@ -48,7 +48,7 @@ class Run_Quick_Edit {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
-		add_action( 'quick_edit_custom_box', array( $this, 'add_quick_edit_custom_box' ), 10, 3 );
+		add_action( 'quick_edit_custom_box', array( $this, 'add_quick_edit' ), 10, 2 );
 		add_action( 'admin_print_scripts-edit.php', array( $this, 'enqueue_script_quick_edit' ) );
 		add_action( 'save_post', array( $this, 'save_quick_edit' ), 10, 2 );
 		add_action( 'wp_ajax_manage_wp_posts_using_bulk_quick_save_bulk_edit', array( $this, 'manage_quick_edit' ) );
@@ -56,13 +56,12 @@ class Run_Quick_Edit {
 
 
 	/**
-	 * Add quick edit custom box
+	 * add quick edit
 	 *
-	 * @param string $column_name Name of the column to edit.
-	 * @param string $post_type The post type slug, or current screen name if this is a taxonomy list table.
-	 * @param string $taxonomy The taxonomy name, if any.
+	 * @param $column_name
+	 * @param $post_type
 	 */
-	public function add_quick_edit_custom_box( string $column_name, string $post_type, string $taxonomy ) {
+	function add_quick_edit( $column_name, $post_type ) {
 
 		switch ( $column_name ) {
 			case 'steps':
@@ -76,6 +75,11 @@ class Run_Quick_Edit {
 				break;
 
 			case 'calories':
+				include plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-number.php';
+
+				break;
+
+			case 'weight':
 				include plugin_dir_path( __FILE__ ) . 'partials/' . $this->plugin_name . '-quick-edit-number.php';
 
 				break;
@@ -121,7 +125,7 @@ class Run_Quick_Edit {
 		switch ( $post->post_type ) {
 
 			case 'run':
-				$custom_fields = array( 'run_duration', 'run_steps', 'run_calories' );
+				$custom_fields = array( 'run_duration', 'run_steps', 'run_calories', 'run_weight' );
 
 				foreach ( $custom_fields as $field ) {
 
@@ -147,7 +151,7 @@ class Run_Quick_Edit {
 		if ( ! empty( $post_ids ) && is_array( $post_ids ) ) {
 
 			// get the custom fields
-			$custom_fields = array( 'run_duration', 'run_steps', 'run_calories' );
+			$custom_fields = array( 'run_duration', 'run_steps', 'run_calories', 'run_weight' );
 
 			foreach ( $custom_fields as $field ) {
 

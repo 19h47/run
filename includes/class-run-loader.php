@@ -9,6 +9,7 @@
  * @subpackage Run/includes
  */
 
+
 /**
  * Register all actions and filters for the plugin.
  *
@@ -44,7 +45,6 @@ class Run_Loader {
 
 
 	/**
-	 * Instance
 	 *
 	 * @since 1.0.0
 	 * @access private

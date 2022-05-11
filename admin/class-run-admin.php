@@ -9,6 +9,7 @@
  * @subpackage run/admin
  */
 
+
 /**
  * The dashboard-specific functionality of the plugin.
  *
@@ -56,9 +57,7 @@ class Run_Admin {
 		$this->load_dependencies();
 	}
 
-	/**
-	 * Load dependencies
-	 */
+
 	private function load_dependencies() {
 
 		/**

@@ -8,8 +8,8 @@
  *
  * @wordpress-plugin
  * Plugin Name: Run
- * Plugin URI: http://github.com/19h47/run
- * Description: Enables a Run post type, taxonomy and metaboxes.
+ * Plugin URI: https://github.com/19h47/run
+ * Description: Enables a run post type, taxonomy and metaboxes.
  * Version: 2.0.0
  * Author: Jérémy Levron
  * Author URI: https://www.19h47.fr
@@ -17,6 +17,7 @@
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: run
  */
+
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
@@ -41,12 +42,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-run.php';
  * @since 1.0.0
  */
 function run_run() {
-	if ( ! function_exists( 'get_plugin_data' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/plugin.php';
-	}
-	$plugin_data = get_plugin_data( __FILE__ );
-
-	$plugin = new Run( $plugin_data['Version'] );
+	$plugin = new Run();
 	$plugin->run();
 }
 run_run(); // Run, Forrest, run!

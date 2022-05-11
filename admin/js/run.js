@@ -1,31 +1,64 @@
+/* global pagenow, typenow, adminpage */
+
 (function ($) {
-	// we create a copy of the WP inline edit post function
-	var inlineEditPostEdit = inlineEditPost.edit;
+	if ('run' === typenow && 'edit-php' === adminpage && 'edit-run' === pagenow) {
+		// we create a copy of the WP inline edit post function
+		var $wp_inline_edit = inlineEditPost.edit;
 
-	// and then we overwrite the function with our own code
-	inlineEditPost.edit = function (id) {
-		// "call" the original WP edit function
-		// we don't want to leave WordPress hanging
-		inlineEditPostEdit.apply(this, arguments);
 
-		// now we take care of our business
+		// and then we overwrite the function with our own code
+		inlineEditPost.edit = function (id) {
 
-		// get the post ID
-		let postId = 0;
+			if (post_id < 0) {
+				return;
+			}
 
-		if (typeof id === "object") {
-			postId = parseInt(this.getId(id));
-		}
+			// "call" the original WP edit function
+			// we don't want to leave WordPress hanging
+			$wp_inline_edit.apply(this, arguments);
 
-		// define the edit row
-		const $edit = document.getElementById("edit-" + postId);
+			// now we take care of our business
 
-		["duration", "steps", "calories"].forEach((field) => {
-			const value = document.getElementById(`run_${field}-${postId}`).innerHTML.trim();
+			// get the post ID
+			var post_id = 0;
 
-			$edit.querySelector(`input[name="run_${field}"]`).value = value;
-		});
-	};
+			if (typeof id == "object") {
+				post_id = parseInt(this.getId(id));
+			}
+			''
+			// define the edit row
+			var edit_row = document.getElementById("edit-" + post_id);
+
+			// get the run duration
+			var run_duration = document.getElementById("run_duration-" + post_id).innerHTML;
+
+			// set the run duration
+			edit_row.querySelector('input[name="run_duration"]').value = run_duration.trim();
+
+			// get the run steps
+			var run_steps = document.getElementById("run_steps-" + post_id).innerHTML;
+
+			// set the run steps
+			edit_row.querySelector('input[name="run_steps"]').value = run_steps.trim();
+
+			// get the run calories
+			var run_calories = document.getElementById("run_calories-" + post_id).innerHTML;
+
+			if (!isNaN(run_calories)) {
+				// set the run calories
+				edit_row.querySelector('input[name="run_calories"]').value = run_calories.trim();
+			}
+
+			// get the run weight
+			var run_weight = document.getElementById("run_weight-" + post_id).innerHTML;
+
+			if (!isNaN(run_weight)) {
+				// set the run weight
+				edit_row.querySelector('input[name="run_weight"]').value = run_weight.trim();
+			}
+		};
+	}
+
 
 	$("#bulk_edit").on("click", function () {
 		// define the bulk edit row
@@ -46,9 +79,10 @@
 			});
 
 		// get the custom fields
-		const run_duration = $bulk_row.find('input[name="run_duration"]').val();
-		const run_steps = $bulk_row.find('input[name="run_steps"]').val();
-		const run_calories = $bulk_row.find('input[name="run_calories"]').val();
+		var $run_duration = $bulk_row.find('input[name="run_duration"]').val();
+		var $run_steps = $bulk_row.find('input[name="run_steps"]').val();
+		var $run_calories = $bulk_row.find('input[name="run_calories"]').val();
+		var $run_weight = $bulk_row.find('input[name="run_weight"]').val();
 
 		// save the data
 		$.ajax({
@@ -59,9 +93,10 @@
 			data: {
 				action: "manage_wp_posts_using_bulk_quick_save_bulk_edit", // this is the name of our WP AJAX function that we'll set up next
 				post_ids: $post_ids, // and these are the 2 parameters we're passing to our function
-				run_duration,
-				run_steps,
-				run_calories,
+				run_duration: $run_duration,
+				run_steps: $run_steps,
+				run_calories: $run_calories,
+				run_weight: $run_weight,
 			},
 		});
 	});

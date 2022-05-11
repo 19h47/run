@@ -7,16 +7,15 @@
  * @subpackage Run/admin/partials
  * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
-
 ?>
 <fieldset class="inline-edit-col-left">
 	<div class="inline-edit-col">
 		<label>
 			<span class="title">
-				<?php echo esc_html( ucfirst( $column_name ) ); ?>
+				<?php echo ucfirst( $column_name ); ?>
 			</span>
 			<span class="input-text-wrap">
-				<input type="time" name="run_<?php echo esc_attr( $column_name ); ?>" class="" value="">
+				<input type="time" name="run_<?php echo $column_name; ?>" class="" value="">
 			</span>
 		</label>
 	</div>

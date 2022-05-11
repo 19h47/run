@@ -9,6 +9,7 @@
  * @subpackage run/admin
  */
 
+
 /**
  * Register post types and taxonomies.
  *
@@ -48,16 +49,13 @@ class Run_Registrations {
 
 
 	/**
-	 * Init
-	 *
-	 * @param string $plugin_name The name of the plugin.
-	 * @param string $plugin_version     The version of this plugin.
+	 * init
 	 */
 	public function __construct( $plugin_name, $plugin_version ) {
 		$this->plugin_name    = $plugin_name;
 		$this->plugin_version = $plugin_version;
 
-		// Add the Run post type.
+		// Add the Run post type
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_filter( 'dashboard_glance_items', array( $this, 'at_a_glance' ) );
 		add_action( 'admin_head', array( $this, 'css' ) );

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * The file that defines the core plugin class
  *
@@ -11,6 +12,7 @@
  * @package    Run
  * @subpackage Run/includes
  */
+
 
 /**
  * The core plugin class.
@@ -48,16 +50,15 @@ class Run {
 	/**
 	 * Construct function
 	 *
-	 * @param string $plugin_version The plugin version.
-	 *
 	 * @access public
 	 */
-	public function __construct( string $plugin_version = '1.0.0' ) {
+	public function __construct() {
 		$this->plugin_name    = 'run';
-		$this->plugin_version = $plugin_version;
+		$this->plugin_version = '1.0.0';
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
+
 	}
 
 
@@ -117,7 +118,6 @@ class Run {
 	 * @since 1.0.0
 	 */
 	public function run() {
-
 		$this->loader->run();
 	}
 

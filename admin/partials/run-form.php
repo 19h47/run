@@ -5,19 +5,16 @@
  * @since      1.0.0
  * @package    Run
  * @subpackage Run/admin/partials
- *
- * @author     Jérémy Levron (https://19h47.fr) <jeremylevron@19h47.fr>
+ * @author     Jérémy Levron <jeremylevron@19h47.fr>
  */
-
 ?>
-
 <table class="form-table">
 
 	<!-- Duration -->
 	<tr>
 		<th>
 			<label for="run_duration" class="run_duration_label">
-				<?php esc_html_e( 'Duration', 'run' ); ?>
+				<?php _e( 'Duration', 'run' ); ?>
 			</label>
 		</th>
 		<td>
@@ -27,7 +24,7 @@
 					name="run_duration"
 					class="run_duration_field"
 					placeholder=""
-					value="<?php echo esc_attr( $run_duration ); ?>"
+					value="<?php echo esc_html( $run_duration ); ?>"
 			>
 		</td>
 	</tr>
@@ -36,7 +33,7 @@
 	<tr>
 		<th>
 			<label for="run_steps" class="run_steps_label">
-				<?php esc_html_e( 'Steps', 'run' ); ?>
+				<?php _e( 'Steps', 'run' ); ?>
 			</label>
 		</th>
 		<td>
@@ -46,7 +43,7 @@
 				name="run_steps"
 				class="run_steps_field"
 				placeholder=""
-				value="<?php echo esc_attr( $run_steps ); ?>"
+				value="<?php echo esc_html( $run_steps ); ?>"
 			>
 		</td>
 	</tr>
@@ -55,7 +52,7 @@
 	<tr>
 		<th>
 			<label for="run_steps" class="run_calories_label">
-				<?php esc_html_e( 'Calories', 'run' ); ?>
+				<?php _e( 'Calories', 'run' ); ?>
 			</label>
 		</th>
 		<td>
@@ -65,7 +62,26 @@
 				name="run_calories"
 				class="run_calories_field"
 				placeholder=""
-				value="<?php echo esc_attr( $run_calories ); ?>"
+				value="<?php echo esc_html( $run_calories ); ?>"
+			>
+		</td>
+	</tr>
+
+	<tr>
+		<th>
+			<label for="run_weight" class="run_weight_label">
+				<?php _e( 'Weight', 'run' ); ?>
+			</label>
+		</th>
+		<td>
+			<input
+				type="number"
+				id="run_weight"
+				name="run_weight"
+				class="run_weight_field"
+				placeholder=""
+				step="0.01"
+				value="<?php echo esc_html( $run_weight ); ?>"
 			>
 		</td>
 	</tr>

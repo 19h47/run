@@ -1,13 +1,21 @@
-# ignore specific folders
-dist/
-languages/
-upgrade/
-uploads/
+.env
 
-# ignore node dependency directories
-node_modules/
+# PHP #
+#######
+vendor
+wpcs
 
-# ignore log files and databases
-*.log
-*.sql
-*.sqlite
+# Webpack #
+###########
+dist
+node_modules
+
+# OS generated files #
+######################
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
