@@ -111,7 +111,7 @@ class Run_Registrations {
 				'SELECT year(post_date) as year from ' . $table_prefix . "posts
                     where post_type='" . $post_type . "'
                     group by year(post_date)
-                    order by post_date"
+                    ORDER BY post_date DESC"
 			);
 
 			foreach ( $query_years as $data ) {
@@ -125,12 +125,13 @@ class Run_Registrations {
 				<option value="0"><?php _e( 'All years', 'run' ); ?></option>
 
 				<?php
-				$current_v = isset( $_GET['y'] ) ? $_GET['y'] : '';
+				$y = isset( $_GET['y'] ) ? $_GET['y'] : '';
+
 				foreach ( $values as $label => $value ) {
 					printf(
 						'<option value="%s"%s>%s</option>',
 						$value,
-						selected( $value, $current_v, false ),
+						selected( $value, $y, false ),
 						$label
 					);
 				}
