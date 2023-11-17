@@ -63,7 +63,6 @@ class Run {
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
-
 	}
 
 
@@ -88,17 +87,17 @@ class Run {
 		 * The class responsible for orchestrating the actions and filters of the
 		 * core plugin.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-run-loader.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/class-run-loader.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the Dashboard.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-admin.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-admin.php';
 
 		/**
 		 * The class responsible for all global functions.
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/api.php';
+		require_once plugin_dir_path( __DIR__ ) . 'includes/api.php';
 
 		$this->loader = new Run_Loader();
 	}

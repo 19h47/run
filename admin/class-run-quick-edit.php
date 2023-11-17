@@ -96,7 +96,6 @@ class Run_Quick_Edit {
 			null,
 			true
 		);
-
 	}
 
 

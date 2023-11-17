@@ -63,28 +63,28 @@ class Run_Admin {
 		/**
 		 * Registrations
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-registrations.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-registrations.php';
 
 		new Run_Registrations( $this->plugin_name, $this->plugin_version );
 
 		/**
 		 * Metaxboxes
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-metaboxes.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-metaboxes.php';
 
 		new Run_Metaboxes( $this->plugin_name, $this->plugin_version );
 
 		/**
 		 * Columns
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-columns.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-columns.php';
 
 		new Run_Columns( $this->plugin_name, $this->plugin_version );
 
 		/**
 		 * Quick edit
 		 */
-		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'admin/class-run-quick-edit.php';
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-quick-edit.php';
 
 		new Run_Quick_Edit( $this->plugin_name, $this->plugin_version );
 	}

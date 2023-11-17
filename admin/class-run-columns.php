@@ -53,7 +53,6 @@ class Run_Columns {
 
 		add_filter( 'manage_edit-run_sortable_columns', array( $this, 'sortable_run_column' ) );
 		add_action( 'pre_get_posts', array( $this, 'pre_get_runs' ) );
-
 	}
 
 

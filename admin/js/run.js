@@ -1,14 +1,12 @@
 /* global pagenow, typenow, adminpage */
 
 (function ($) {
-	if ('run' === typenow && 'edit-php' === adminpage && 'edit-run' === pagenow) {
+	if ("run" === typenow && "edit-php" === adminpage && "edit-run" === pagenow) {
 		// we create a copy of the WP inline edit post function
 		var $wp_inline_edit = inlineEditPost.edit;
 
-
 		// and then we overwrite the function with our own code
 		inlineEditPost.edit = function (id) {
-
 			if (post_id < 0) {
 				return;
 			}
@@ -25,7 +23,7 @@
 			if (typeof id == "object") {
 				post_id = parseInt(this.getId(id));
 			}
-			''
+			("");
 			// define the edit row
 			var edit_row = document.getElementById("edit-" + post_id);
 
@@ -58,7 +56,6 @@
 			}
 		};
 	}
-
 
 	$("#bulk_edit").on("click", function () {
 		// define the bulk edit row

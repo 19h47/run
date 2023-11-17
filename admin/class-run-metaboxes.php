@@ -52,7 +52,6 @@ class Run_Metaboxes {
 			add_action( 'load-post.php', array( $this, 'init_metabox' ) );
 			add_action( 'load-post-new.php', array( $this, 'init_metabox' ) );
 		}
-
 	}
 
 
@@ -71,9 +70,13 @@ class Run_Metaboxes {
 	 *
 	 * $id, $title, $callback, $page, $context, $priority, $callback_args
 	 *
+	 * @param string  $post_type Post type.
+	 * @param WP_Post $post Post object.
+	 *
 	 * @see  https://developer.wordpress.org/reference/functions/add_meta_box/
+	 * @see https://developer.wordpress.org/reference/hooks/add_meta_boxes/
 	 */
-	public function add_metabox() {
+	public function add_metabox( string $post_type, WP_Post $post ) {
 		add_meta_box(
 			'run_information',
 			__( 'Information', 'run' ),
@@ -123,9 +126,10 @@ class Run_Metaboxes {
 	 *
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
+	 *
 	 * @return null
 	 */
-	public function save_metabox( $post_id, $post ) {
+	public function save_metabox( int $post_id, WP_Post $post ) {
 		// Add nonce for security and authentication.
 		$nonce_name   = isset( $_POST['custom_nonce'] ) ? $_POST['custom_nonce'] : '';
 		$nonce_action = 'custom_nonce_action';
