@@ -61,7 +61,7 @@ class Run_Metaboxes {
 	 * @see https://generatewp.com/snippet/90jakpm/
 	 */
 	public function init_metabox() {
-		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ) );
+		add_action( 'add_meta_boxes', array( $this, 'add_metabox' ), 10, 2 );
 		add_action( 'save_post', array( $this, 'save_metabox' ), 10, 2 );
 	}
 
