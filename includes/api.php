@@ -15,12 +15,12 @@
  *
  * Retrieve the value of a given $key in Run post type
  *
- * @param boolean $post_id
- * @param string  $key
+ * @param bool   $post_id
+ * @param string $key
  * @return string $meta
  * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
  */
-function get_run_meta( $post_id = false, $key ) {
+function get_run_meta( $post_id, $key ) {
 
 	if ( ! $key ) {
 		return;

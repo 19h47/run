@@ -28,6 +28,11 @@
 class Run {
 
 	/**
+	 *
+	 */
+	protected $loader;
+
+	/**
 	 * The unique identifier of this plugin.
 	 *
 	 * @since    1.0.0
