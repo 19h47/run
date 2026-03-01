@@ -128,7 +128,7 @@ class Run_Loader {
 	 */
 	public static function get_instance() {
 		if ( is_null( self::$instance ) ) {
-			self::$instance = new Now_Hiring_Loader();
+			self::$instance = new Run_Loader();
 		}
 		return self::$instance;
 	}

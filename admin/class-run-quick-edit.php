@@ -48,7 +48,7 @@ class Run_Quick_Edit {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
-		add_action( 'quick_edit_custom_box', array( $this, 'add_quick_edit' ), 10, 2 );
+		add_action( 'quick_edit_custom_box', array( $this, 'add_quick_edit' ), 10, 3 );
 		add_action( 'admin_print_scripts-edit.php', array( $this, 'enqueue_script_quick_edit' ) );
 		add_action( 'save_post', array( $this, 'save_quick_edit' ), 10, 2 );
 		add_action( 'wp_ajax_manage_wp_posts_using_bulk_quick_save_bulk_edit', array( $this, 'manage_quick_edit' ) );
@@ -56,12 +56,15 @@ class Run_Quick_Edit {
 
 
 	/**
-	 * add quick edit
+	 * Add quick edit
 	 *
-	 * @param $column_name
-	 * @param $post_type
+	 * @see https://developer.wordpress.org/reference/hooks/quick_edit_custom_box/
+	 *
+	 * @param string $column_name Name of the column to edit.
+	 * @param string $post_type The post type slug, or current screen name if this is a taxonomy list table.
+	 * @param string $taxonomy  The taxonomy name, if any.
 	 */
-	function add_quick_edit( $column_name, $post_type ) {
+	function add_quick_edit( string $column_name, string $post_type, string $taxonomy ): void {
 
 		switch ( $column_name ) {
 			case 'steps':
@@ -86,10 +89,13 @@ class Run_Quick_Edit {
 		}
 	}
 
-
-	function enqueue_script_quick_edit() {
-
-		wp_enqueue_script(
+	/**
+	 * Enqueue script quick edit
+	 *
+	 * @return mixed
+	 */
+	function enqueue_script_quick_edit(): mixed {
+		return wp_enqueue_script(
 			'manage-wp-posts-using-bulk-quick-edit',
 			plugin_dir_url( __FILE__ ) . 'js/' . $this->plugin_name . '.js',
 			array( 'jquery', 'inline-edit-post' ),
@@ -141,7 +147,7 @@ class Run_Quick_Edit {
 	/**
 	 * Manage quick edit
 	 */
-	function manage_quick_edit() {
+	function manage_quick_edit(): void {
 
 		// we need the post IDs
 		$post_ids = ( isset( $_POST['post_ids'] ) && ! empty( $_POST['post_ids'] ) ) ? $_POST['post_ids'] : null;

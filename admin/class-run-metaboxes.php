@@ -75,9 +75,11 @@ class Run_Metaboxes {
 	 *
 	 * @see  https://developer.wordpress.org/reference/functions/add_meta_box/
 	 * @see https://developer.wordpress.org/reference/hooks/add_meta_boxes/
+	 *
+	 * @return mixed
 	 */
-	public function add_metabox( string $post_type, WP_Post $post ) {
-		add_meta_box(
+	public function add_metabox( string $post_type, WP_Post $post ): mixed {
+		return add_meta_box(
 			'run_information',
 			__( 'Information', 'run' ),
 			array( $this, 'render_metabox' ),
@@ -91,7 +93,7 @@ class Run_Metaboxes {
 	/**
 	 * Renders the meta box
 	 */
-	public function render_metabox( $post ) {
+	public function render_metabox( $post ) :void {
 		// Add nonce for security and authentication.
 		wp_nonce_field( 'custom_nonce_action', 'custom_nonce' );
 
@@ -127,9 +129,9 @@ class Run_Metaboxes {
 	 * @param int     $post_id Post ID.
 	 * @param WP_Post $post    Post object.
 	 *
-	 * @return null
+	 * @return void
 	 */
-	public function save_metabox( int $post_id, WP_Post $post ) {
+	public function save_metabox( int $post_id, WP_Post $post ): void {
 		// Add nonce for security and authentication.
 		$nonce_name   = isset( $_POST['custom_nonce'] ) ? $_POST['custom_nonce'] : '';
 		$nonce_action = 'custom_nonce_action';

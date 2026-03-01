@@ -58,7 +58,7 @@ class Run_Admin {
 	}
 
 
-	private function load_dependencies() {
+	private function load_dependencies(): void {
 
 		/**
 		 * Registrations

@@ -59,95 +59,16 @@ class Run_Registrations {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_filter( 'dashboard_glance_items', array( $this, 'at_a_glance' ) );
 		add_action( 'admin_head', array( $this, 'css' ) );
-
-		add_action( 'restrict_manage_posts', array( $this, 'restrict_manage_runs' ), 10, 2 );
-
-		add_filter( 'parse_query', array( $this, 'parse_query' ) );
 	}
-
-	/**
-	 * Parse query
-	 *
-	 * @param WP_Query $query The WP_Query instance (passed by reference).
-	 *
-	 * @see https://developer.wordpress.org/reference/hooks/parse_query/
-	 *
-	 * @return WP_Query $query
-	 */
-	public function parse_query( WP_Query $query ): WP_Query {
-		if ( ! ( is_admin() && $query->is_main_query() ) ) {
-			return $query;
-		}
-
-		if ( ! ( 'run' === $query->query['post_type'] && isset( $_REQUEST['y'] ) ) ) {
-			return $query;
-		}
-
-		if ( 0 === $_REQUEST['y'] ) {
-			return $query;
-		}
-
-		$query->query_vars['year'] = $_REQUEST['y'];
-
-		return $query;
-	}
-
-	/**
-	 * Restrict manage runs
-	 *
-	 * @param string $post_type The post type slug.
-	 * @param string $which The location of the extra table nav markup: 'top' or 'bottom' for WP_Posts_List_Table, 'bar' for WP_Media_List_Table.
-	 *
-	 * @see https://developer.wordpress.org/reference/hooks/restrict_manage_posts/
-	 */
-	public function restrict_manage_runs( string $post_type, string $which ) {
-		global $wpdb, $table_prefix;
-
-		// only add filter to post type you want
-		if ( $post_type === 'run' ) {
-			// query database to get a list of years for the specific post type:
-			$values      = array();
-			$query_years = $wpdb->get_results(
-				'SELECT year(post_date) as year from ' . $table_prefix . "posts
-                    where post_type='" . $post_type . "'
-                    group by year(post_date)
-                    ORDER BY post_date DESC"
-			);
-
-			foreach ( $query_years as $data ) {
-				$values[ $data->year ] = $data->year;
-			}
-
-			// give a unique name in the select field
-			?>
-
-			<select name="y" class="filter-by-year">
-				<option value="0"><?php _e( 'All years', 'run' ); ?></option>
-
-				<?php
-				$y = isset( $_GET['y'] ) ? $_GET['y'] : '';
-
-				foreach ( $values as $label => $value ) {
-					printf(
-						'<option value="%s"%s>%s</option>',
-						$value,
-						selected( $value, $y, false ),
-						$label
-					);
-				}
-				?>
-			</select>
-			<?php
-		}
-	}
-
 
 	/**
 	 * Register the custom post type.
 	 *
 	 * @link http://codex.wordpress.org/Function_Reference/register_post_type
+	 *
+	 * @return WP_Post_Type|WP_Error
 	 */
-	public function register_post_type() {
+	public function register_post_type(): WP_Post_Type|WP_Error {
 
 		$labels = array(
 			'name'                  => __( 'Runs', 'run' ),
@@ -211,16 +132,16 @@ class Run_Registrations {
 
 		$args = apply_filters( 'run_post_type_args', $args );
 
-		register_post_type( $this->post_type, $args );
+		return register_post_type( $this->post_type, $args );
 	}
 
 
 	/**
 	 * "At a glance" items (dashboard widget): add the testimony.
 	 *
-	 * @param arr $items Items.
+	 * @param array $items Items.
 	 */
-	public function at_a_glance( $items ) {
+	public function at_a_glance( array $items ): array {
 		$post_type   = 'run';
 		$post_status = 'publish';
 		$object      = get_post_type_object( $post_type );
@@ -257,7 +178,7 @@ class Run_Registrations {
 	/**
 	 * CSS
 	 */
-	public function css() {
+	public function css(): void {
 		echo '<style>#dashboard_right_now .run-count:before { content: "\f239"; }</style>';
 	}
 }

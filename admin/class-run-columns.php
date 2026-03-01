@@ -51,8 +51,8 @@ class Run_Columns {
 		add_filter( 'manage_run_posts_columns', array( $this, 'add_run_columns' ) );
 		add_action( 'manage_run_posts_custom_column', array( $this, 'run_custom_columns' ), 10, 2 );
 
-		add_filter( 'manage_edit-run_sortable_columns', array( $this, 'sortable_run_column' ) );
-		add_action( 'pre_get_posts', array( $this, 'pre_get_runs' ) );
+		add_filter( 'manage_edit-run_sortable_columns', array( $this, 'sortable_run_column' ), 10, 1 );
+		add_action( 'pre_get_posts', array( $this, 'pre_get_runs' ), 10, 1 );
 	}
 
 
@@ -71,7 +71,7 @@ class Run_Columns {
 				'duration' => __( 'Duration', 'run' ),
 				'steps'    => __( 'Steps', 'run' ),
 				'calories' => __( 'Calories', 'run' ),
-				'weight'   => __( 'weight', 'run' ),
+				'weight'   => __( 'Weight', 'run' ),
 			)
 		);
 	}
@@ -114,14 +114,18 @@ class Run_Columns {
 	/**
 	 * sortable_run_column description
 	 *
-	 * @param   $sortable_columns
+	 * @see https://developer.wordpress.org/reference/hooks/manage_this-screen-id_sortable_columns/
+	 *
+	 * @param array $sortable_columns  An array of sortable columns.
+	 *
+	 * @return array
 	 */
-	public function sortable_run_column( $sortable_columns ) {
+	public function sortable_run_column( array $sortable_columns ): array {
 
-		$sortable_columns['duration'] = 'run_duration';
-		$sortable_columns['steps']    = 'run_steps';
-		$sortable_columns['calories'] = 'run_calories';
-		$sortable_columns['weight']   = 'run_weight';
+		$sortable_columns['duration'] = $this->plugin_name . '_duration';
+		$sortable_columns['steps']    = $this->plugin_name . '_steps';
+		$sortable_columns['calories'] = $this->plugin_name . '_calories';
+		$sortable_columns['weight']   = $this->plugin_name . '_weight';
 
 		return $sortable_columns;
 	}
@@ -130,37 +134,47 @@ class Run_Columns {
 	/**
 	 * Pre get runs
 	 *
-	 * @param $query
+	 * @param WP_Query $query The WP_Query instance (passed by reference).
 	 */
-	function pre_get_runs( $query ) {
+	function pre_get_runs( WP_Query $query ) {
 
-		if ( ! is_admin() ) {
-			return;
+		if ( ! ( is_admin() && $query->is_main_query() ) ) {
+			return $query;
 		}
 
-		if ( ! $query->is_main_query() ) {
-			return;
+		if ( $query->get( 'post_type' ) !== 'run' ) {
+			return $query;
 		}
 
 		$orderby = $query->get( 'orderby' );
 
 		switch ( $orderby ) {
-			case 'run_steps':
-				$query->set( 'meta_key', 'run_steps' );
+			case $this->plugin_name . '_duration':
+				$query->set( 'meta_key', $this->plugin_name . '_duration' );
+				$query->set( 'meta_type', 'TIME' );
+				$query->set( 'orderby', 'meta_value' );
+
+				break;
+
+			case $this->plugin_name . '_steps':
+				$query->set( 'meta_key', $this->plugin_name . '_steps' );
 				$query->set( 'orderby', 'meta_value_num' );
 
 				break;
 
-			case 'run_calories':
-				$query->set( 'meta_key', 'run_calories' );
+			case $this->plugin_name . '_calories':
+				$query->set( 'meta_key', $this->plugin_name . '_calories' );
 				$query->set( 'orderby', 'meta_value_num' );
 
 				break;
 
-			case 'run_weight':
-				$query->set( 'meta_key', 'run_weight' );
+			case $this->plugin_name . '_weight':
+				$query->set( 'meta_key', $this->plugin_name . '_weight' );
 				$query->set( 'orderby', 'meta_value_num' );
 
+				break;
+
+			default:
 				break;
 
 		}

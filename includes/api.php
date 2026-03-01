@@ -17,8 +17,8 @@
  *
  * @param bool   $post_id
  * @param string $key
- * @return string $meta
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ *
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function get_run_meta( $post_id, $key ) {
 
@@ -40,7 +40,7 @@ function get_run_meta( $post_id, $key ) {
  *
  * @param boolean $post_id
  * @return function get_run_meta
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function get_run_steps( $post_id = false ) {
 
@@ -52,7 +52,7 @@ function get_run_steps( $post_id = false ) {
  * The Run steps
  *
  * @param boolean $post_id
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function the_run_steps( $post_id = false ) {
 
@@ -65,7 +65,7 @@ function the_run_steps( $post_id = false ) {
  *
  * @param string      $format Optional. PHP date format defaults to the date_format option if not specified.
  * @param int|WP_Post $post Optional. Post ID or WP_Post object. Default current post.
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function get_run_date( $format = '', $post_id = false ) {
 
@@ -82,7 +82,7 @@ function get_run_date( $format = '', $post_id = false ) {
  *
  * @param boolean $post_id
  * @param $format
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function the_run_date( $format = '', $post_id = false ) {
 	echo get_run_date( $format, $post_id );
@@ -93,7 +93,7 @@ function the_run_date( $format = '', $post_id = false ) {
  *
  * @param boolean $post_id
  * @return function get_run_meta
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function get_run_duration( $post_id = false ) {
 	return get_run_meta( $post_id, 'run_duration' );
@@ -104,7 +104,7 @@ function get_run_duration( $post_id = false ) {
  * The Run duration
  *
  * @param boolean $post_id
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function the_run_duration( $post_id = false ) {
 	echo get_run_duration( $post_id );
@@ -116,7 +116,7 @@ function the_run_duration( $post_id = false ) {
  *
  * @param boolean $post_id
  * @return function get_run_meta
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function get_run_calories( $post_id = false ) {
 	return get_run_meta( $post_id, 'run_calories' );
@@ -127,7 +127,7 @@ function get_run_calories( $post_id = false ) {
  * The Run calories
  *
  * @param boolean $post_id
- * @author Jérémy Levron <levronjeremy@19h47.fr> (http://19h47.fr)
+ * @author Jérémy Levron <levronjeremy@19h47.fr> (https://19h47.fr)
  */
 function the_run_calories( $post_id = false ) {
 	echo get_run_calories( $post_id );

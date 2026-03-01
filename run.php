@@ -41,7 +41,7 @@ require plugin_dir_path( __FILE__ ) . 'includes/class-run.php';
  *
  * @since 1.0.0
  */
-function run_run() {
+function run_run(): void {
 	$plugin = new Run();
 	$plugin->run();
 }
