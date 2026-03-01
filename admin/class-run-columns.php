@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Columns
  *
@@ -40,6 +39,16 @@ class Run_Columns {
 	 */
 	private $version;
 
+	/** 
+	 * @var string|null Meta key for current sort (posts_join + posts_orderby). 
+	 * */
+	private $orderby_meta_key = null;
+
+	/** 
+	 * @var string|null 'meta_value' (TIME) or 'meta_value_num'. 
+	 */
+	private $orderby_meta_type = null;
+
 
 	/**
 	 * Constructor
@@ -53,6 +62,8 @@ class Run_Columns {
 
 		add_filter( 'manage_edit-run_sortable_columns', array( $this, 'sortable_run_column' ), 10, 1 );
 		add_action( 'pre_get_posts', array( $this, 'pre_get_runs' ), 10, 1 );
+		add_filter( 'posts_join', array( $this, 'posts_join_run_meta' ), 10, 2 );
+		add_filter( 'posts_orderby', array( $this, 'posts_orderby_run_meta' ), 10, 2 );
 	}
 
 
@@ -146,37 +157,82 @@ class Run_Columns {
 			return $query;
 		}
 
+		$this->orderby_meta_key  = null;
+		$this->orderby_meta_type = null;
+
 		$orderby = $query->get( 'orderby' );
 
 		switch ( $orderby ) {
 			case $this->plugin_name . '_duration':
-				$query->set( 'meta_key', $this->plugin_name . '_duration' );
-				$query->set( 'meta_type', 'TIME' );
-				$query->set( 'orderby', 'meta_value' );
-
+				$this->orderby_meta_key  = $this->plugin_name . '_duration';
+				$this->orderby_meta_type = 'meta_value';
 				break;
-
 			case $this->plugin_name . '_steps':
-				$query->set( 'meta_key', $this->plugin_name . '_steps' );
-				$query->set( 'orderby', 'meta_value_num' );
-
+				$this->orderby_meta_key  = $this->plugin_name . '_steps';
+				$this->orderby_meta_type = 'meta_value_num';
 				break;
-
 			case $this->plugin_name . '_calories':
-				$query->set( 'meta_key', $this->plugin_name . '_calories' );
-				$query->set( 'orderby', 'meta_value_num' );
-
+				$this->orderby_meta_key  = $this->plugin_name . '_calories';
+				$this->orderby_meta_type = 'meta_value_num';
 				break;
-
 			case $this->plugin_name . '_weight':
-				$query->set( 'meta_key', $this->plugin_name . '_weight' );
-				$query->set( 'orderby', 'meta_value_num' );
-
+				$this->orderby_meta_key  = $this->plugin_name . '_weight';
+				$this->orderby_meta_type = 'meta_value_num';
 				break;
-
 			default:
-				break;
-
+				return $query;
 		}
+
+		// Pas de meta_query ni meta_key : une seule jointure via posts_join (compatible filtre année).
+		$query->set( 'orderby', 'date' );
+	}
+
+
+	/**
+	 * Only one postmeta join (run_meta_sort). Required when year filter + meta sort.
+	 * Otherwise WordPress generates two postmeta joins → "Not unique table/alias".
+	 *
+	 * @param string   $join  Clause JOIN.
+	 * @param WP_Query $query Requête.
+	 * @return string
+	 */
+	public function posts_join_run_meta( $join, WP_Query $query ) {
+		if ( ! is_admin() || $query->get( 'post_type' ) !== 'run' || ! $this->orderby_meta_key ) {
+			return $join;
+		}
+
+		global $wpdb;
+
+		$join .= $wpdb->prepare(
+			" INNER JOIN {$wpdb->postmeta} AS run_meta_sort ON ({$wpdb->posts}.ID = run_meta_sort.post_id AND run_meta_sort.meta_key = %s) ",
+			$this->orderby_meta_key
+		);
+
+		return $join;
+	}
+
+
+	/**
+	 * ORDER BY run_meta_sort
+	 *
+	 * @param string   $orderby Clause ORDER BY.
+	 * @param WP_Query $query   Requête.
+	 * @return string
+	 */
+	public function posts_orderby_run_meta( $orderby, WP_Query $query ) {
+		if ( ! is_admin() || $query->get( 'post_type' ) !== 'run' || ! $this->orderby_meta_key ) {
+			return $orderby;
+		}
+
+		$order = strtoupper( $query->get( 'order' ) );
+		if ( 'DESC' !== $order ) {
+			$order = 'ASC';
+		}
+
+		if ( 'meta_value' === $this->orderby_meta_type ) {
+			return 'run_meta_sort.meta_value ' . $order;
+		}
+
+		return 'run_meta_sort.meta_value+0 ' . $order;
 	}
 }
