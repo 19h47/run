@@ -183,7 +183,6 @@ class Run_Columns {
 				return $query;
 		}
 
-		// Pas de meta_query ni meta_key : une seule jointure via posts_join (compatible filtre année).
 		$query->set( 'orderby', 'date' );
 	}
 
