@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Metaboxes
  *
@@ -9,7 +8,6 @@
  * @package    Run
  * @subpackage Run/admin
  */
-
 
 /**
  * Metaboxes
@@ -93,7 +91,7 @@ class Run_Metaboxes {
 	/**
 	 * Renders the meta box
 	 */
-	public function render_metabox( $post ) :void {
+	public function render_metabox( $post ): void {
 		// Add nonce for security and authentication.
 		wp_nonce_field( 'custom_nonce_action', 'custom_nonce' );
 

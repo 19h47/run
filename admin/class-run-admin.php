@@ -87,5 +87,12 @@ class Run_Admin {
 		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-quick-edit.php';
 
 		new Run_Quick_Edit( $this->plugin_name, $this->plugin_version );
+
+		/**
+		 * Dashboard widget
+		 */
+		require_once plugin_dir_path( __DIR__ ) . 'admin/class-run-dashboard.php';
+
+		new Run_Dashboard( $this->plugin_name, $this->plugin_version );
 	}
 }

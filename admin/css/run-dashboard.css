@@ -1,0 +1,201 @@
+#run_dashboard_overview .inside {
+	margin: 0;
+	padding-top: 0;
+}
+
+.run-dashboard-widget {
+	padding: 12px 14px 14px;
+	box-sizing: border-box;
+}
+
+.run-dashboard-header {
+	margin-bottom: 10px;
+}
+
+.run-dashboard-header-main {
+	min-width: 0;
+}
+
+.run-dashboard-period {
+	margin: 0;
+	color: #646970;
+	font-size: 12px;
+}
+
+.run-dashboard-primary {
+	margin: 2px 0 0;
+	font-size: 16px;
+	font-weight: 600;
+	word-break: break-word;
+}
+
+.run-dashboard-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 4px 8px;
+	margin: 0 0 12px;
+	padding: 0;
+	list-style: none;
+}
+
+.run-dashboard-tab {
+	display: inline-block;
+	padding: 4px 10px;
+	font-size: 12px;
+	color: #646970;
+	text-decoration: none;
+	border: 1px solid #c3c4c7;
+	border-radius: 3px;
+	background: #f6f7f7;
+}
+
+.run-dashboard-tab:hover {
+	color: #1d2327;
+	background: #f0f0f1;
+}
+
+.run-dashboard-tab--current {
+	color: #fff;
+	border-color: var(--wp-admin-theme-color, #2271b1);
+	background: var(--wp-admin-theme-color, #2271b1);
+}
+
+.run-dashboard-stats-wrap {
+	margin-bottom: 14px;
+	padding-bottom: 12px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.run-dashboard-stats {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 0 16px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	font-size: 12px;
+	color: #646970;
+}
+
+.run-dashboard-stat {
+	margin: 0;
+	white-space: nowrap;
+}
+
+.run-dashboard-link {
+	display: inline-block;
+	margin-top: 6px;
+	font-size: 11px;
+	color: var(--wp-admin-theme-color, #2271b1);
+	text-decoration: none;
+}
+
+.run-dashboard-link:hover {
+	text-decoration: underline;
+}
+
+.run-dashboard-graph-wrapper {
+	margin-top: 0;
+	padding: 0 2px 10px;
+}
+
+.run-dashboard-graph-title {
+	margin: 0 0 4px;
+	font-size: 12px;
+	font-weight: 600;
+	color: #1d2327;
+}
+
+.run-dashboard-graph {
+	display: flex;
+	align-items: flex-end;
+	justify-content: space-between;
+	gap: 4px;
+	min-height: 56px;
+}
+
+.run-dashboard-graph--weeks {
+	gap: 0;
+}
+
+.run-dashboard-graph--weeks .run-graph-bar-label {
+	font-size: 9px;
+}
+
+.run-graph-bar {
+	flex: 1 1 0;
+	min-width: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: flex-end;
+	gap: 2px;
+}
+
+.run-graph-bar-fill {
+	width: 2px;
+	min-height: 2px;
+	border-radius: 2px 2px 0 0;
+	background: var(--wp-admin-theme-color, #2271b1);
+}
+
+.run-graph-bar-fill--sessions {
+	background: var(--wp-admin-theme-color, #2271b1);
+}
+
+.run-graph-bar-fill--steps {
+	background: var(--wp-admin-theme-color-darker-10, #1f5f8a);
+}
+
+.run-graph-bar-fill--duration {
+	background: var(--wp-admin-theme-color-darker-20, #154566);
+}
+
+.run-graph-bar-fill--weight {
+	background: var(--wp-admin-theme-color-darker-30, #0c2d44);
+}
+
+.run-graph-bar-count {
+	font-size: 11px;
+	color: #1d2327;
+	line-height: 1.2;
+}
+
+.run-graph-bar-label {
+	display: block;
+	font-size: 10px;
+	color: #646970;
+	line-height: 1.2;
+}
+
+.run-graph-bar--peak .run-graph-bar-fill {
+	box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.15);
+}
+
+.run-dashboard-graph-peak {
+	margin: 4px 0 0;
+	font-size: 11px;
+	color: #646970;
+}
+
+@media (max-width: 782px) {
+	.run-dashboard-graph {
+		gap: 2px;
+		min-height: 44px;
+	}
+
+	.run-dashboard-graph-title {
+		font-size: 11px;
+	}
+
+	.run-graph-bar-label {
+		font-size: 9px;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.run-graph-bar-fill {
+		transition: none;
+	}
+}
+

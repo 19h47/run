@@ -10,14 +10,13 @@
  * Plugin Name: Run
  * Plugin URI: https://github.com/19h47/run
  * Description: Enables a run post type, taxonomy and metaboxes.
- * Version: 2.0.0
+ * Version: 2.1.0
  * Author: Jérémy Levron
  * Author URI: https://www.19h47.fr
  * License: GPL-2.0+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  * Text Domain: run
  */
-
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {

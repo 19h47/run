@@ -59,7 +59,7 @@ class Run {
 	 */
 	public function __construct() {
 		$this->plugin_name    = 'run';
-		$this->plugin_version = '1.0.0';
+		$this->plugin_version = '2.1.0';
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();

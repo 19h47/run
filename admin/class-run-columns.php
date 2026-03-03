@@ -9,7 +9,6 @@
  * @subpackage Run/admin
  */
 
-
 /**
  * Columns
  *
@@ -39,21 +38,28 @@ class Run_Columns {
 	 */
 	private $version;
 
-	/** 
-	 * @var string|null Meta key for current sort (posts_join + posts_orderby). 
+	/**
+	 * Meta key for current sort (posts_join + posts_orderby).
+	 *
+	 * @var string|null
 	 * */
 	private $orderby_meta_key = null;
 
-	/** 
-	 * @var string|null 'meta_value' (TIME) or 'meta_value_num'. 
+	/**
+	 * Meta type for current sort (posts_join + posts_orderby).
+	 *
+	 * @var string|null 'meta_value' (TIME) or 'meta_value_num'.
 	 */
 	private $orderby_meta_type = null;
 
 
 	/**
 	 * Constructor
+	 *
+	 * @param string $plugin_name Plugin name.
+	 * @param string $version Plugin version.
 	 */
-	public function __construct( $plugin_name, $version ) {
+	public function __construct( string $plugin_name, string $version ) {
 		$this->plugin_name = $plugin_name;
 		$this->version     = $version;
 
@@ -68,14 +74,12 @@ class Run_Columns {
 
 
 	/**
-	 * add run columns
+	 * Add run columns
 	 *
-	 * @param $columns
+	 * @param array $columns Columns.
+	 * @return array
 	 */
-	public function add_run_columns( $columns ) {
-
-		// unset( $columns['title'] );
-
+	public function add_run_columns( array $columns ): array {
 		return array_merge(
 			$columns,
 			array(
@@ -89,12 +93,14 @@ class Run_Columns {
 
 
 	/**
-	 * run custom columns
+	 * Run custom columns
 	 *
-	 * @param $column_name
-	 * @param $post_id
+	 * @param string $column_name Column name.
+	 * @param int    $post_id Post ID.
+	 *
+	 * @return void
 	 */
-	public function run_custom_columns( $column_name, $post_id ) {
+	public function run_custom_columns( string $column_name, int $post_id ): void {
 		$data = get_post_meta( $post_id, 'run_' . $column_name, true );
 
 		switch ( $column_name ) {
@@ -123,7 +129,7 @@ class Run_Columns {
 
 
 	/**
-	 * sortable_run_column description
+	 * Sortable run column
 	 *
 	 * @see https://developer.wordpress.org/reference/hooks/manage_this-screen-id_sortable_columns/
 	 *
@@ -147,7 +153,7 @@ class Run_Columns {
 	 *
 	 * @param WP_Query $query The WP_Query instance (passed by reference).
 	 */
-	function pre_get_runs( WP_Query $query ) {
+	public function pre_get_runs( WP_Query $query ) {
 
 		if ( ! ( is_admin() && $query->is_main_query() ) ) {
 			return $query;
